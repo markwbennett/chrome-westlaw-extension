@@ -1071,12 +1071,10 @@
         if (opinionHighlightingEnabled) {
             finalRules += highlightingRules;
         }
-        opinionStyleElement.textContent = finalRules;        `;        `;
+        opinionStyleElement.textContent = finalRules;
 
-        opinionStyleElement.textContent = colorRules;
         (document.head || document.documentElement).appendChild(opinionStyleElement);
     }
-
     // ===========================================
     // KEYBOARD SHORTCUTS
     // ===========================================
