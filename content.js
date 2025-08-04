@@ -62,13 +62,18 @@
     const KILLSWITCH_STORAGE_KEY = 'westlawKillswitch';
     let killswitchEnabled = false;
 
-    let opinionBordersEnabled = true;    async function initializeKillswitch() {
-    let opinionHighlightingEnabled = true;        killswitchEnabled = await getValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, false);
+    let opinionBordersEnabled = true;
+    let opinionHighlightingEnabled = true;
+
+    async function initializeKillswitch() {
+        killswitchEnabled = await getValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, false);
+        opinionBordersEnabled = await getValue('opinionBordersEnabled', true);
+        opinionHighlightingEnabled = await getValue('opinionHighlightingEnabled', true);
     }
 
-        opinionBordersEnabled = await getValue('opinionBordersEnabled', true);    function toggleKillswitch() {
+    function toggleKillswitch() {
         killswitchEnabled = !killswitchEnabled;
-        opinionHighlightingEnabled = await getValue('opinionHighlightingEnabled', true);        setValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, killswitchEnabled);
+        setValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, killswitchEnabled);
         
         if (killswitchEnabled) {
             // Remove all modifications
@@ -79,9 +84,7 @@
             applyAllSettings();
             showNotification('All modifications enabled', 'killswitch');
         }
-    }
-
-    function removeAllModifications() {
+    }    function removeAllModifications() {
         // Remove all style elements
         if (divStyleElement) {
             divStyleElement.remove();
@@ -632,17 +635,22 @@
         opinionBordersEnabled = !opinionBordersEnabled;
         await setValue('opinionBordersEnabled', opinionBordersEnabled);
         updateOpinionColors();
-    }    // NOTIFICATION SYSTEM
+    }
+
     async function toggleOpinionHighlighting() {
         opinionHighlightingEnabled = !opinionHighlightingEnabled;
         await setValue('opinionHighlightingEnabled', opinionHighlightingEnabled);
         updateOpinionColors();
-    }    // ===========================================
+    }
+
+    // ===========================================
+    // NOTIFICATION SYSTEM
     function showNotification(message, type) {
         const existingNotification = document.getElementById('westlaw-notification');
         if (existingNotification) {
             existingNotification.remove();
         }
+
 
         const notification = document.createElement('div');
         notification.id = 'westlaw-notification';
@@ -660,8 +668,7 @@
 
         notification.style.cssText = `
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 20px;            right: 20px;
             background: ${typeColors[type] || '#333'};
             color: white;
             padding: 12px 20px;
@@ -672,9 +679,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         `;
-
-        document.body.appendChild(notification);
-
         setTimeout(() => {
             if (notification && notification.parentNode) {
                 notification.style.opacity = '0';
@@ -1055,7 +1059,7 @@
             }
         `;
 
-        let finalRules = ';
+        let finalRules = '';
         if (opinionBordersEnabled) {
             finalRules += borderRules;
         }

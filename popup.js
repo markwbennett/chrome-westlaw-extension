@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
             keepAliveEnabled: true,
             searchNavEnabled: true,
             docNavEnabled: true,
-            notesEnabled: true
-            opinionHighlightingEnabled: true            opinionBordersEnabled: true        }, function(items) {
-            document.getElementById('toggleFontSize').checked = items.fontSizeEnabled;
-            document.getElementById('toggleLineHeight').checked = items.lineHeightEnabled;
-            document.getElementById('toggleMargins').checked = items.marginsEnabled;
+            docNavEnabled: true,
+            notesEnabled: true,
+            opinionBordersEnabled: true,
+            opinionHighlightingEnabled: true
+        }, function(items) {            document.getElementById('toggleMargins').checked = items.marginsEnabled;
             document.getElementById('toggleSidebarFeature').checked = items.sidebarEnabled;
             document.getElementById('toggleFocusModeFeature').checked = items.focusModeEnabled;
             document.getElementById('toggleKeepAliveFeature').checked = items.keepAliveEnabled;
