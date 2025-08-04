@@ -84,7 +84,9 @@
             applyAllSettings();
             showNotification('All modifications enabled', 'killswitch');
         }
-    }    function removeAllModifications() {
+    }
+
+    function removeAllModifications() {
         // Remove all style elements
         if (divStyleElement) {
             divStyleElement.remove();
@@ -645,6 +647,7 @@
 
     // ===========================================
     // NOTIFICATION SYSTEM
+    // ===========================================
     function showNotification(message, type) {
         const existingNotification = document.getElementById('westlaw-notification');
         if (existingNotification) {
@@ -668,7 +671,8 @@
 
         notification.style.cssText = `
             position: fixed;
-            top: 20px;            right: 20px;
+            top: 20px;
+            right: 20px;
             background: ${typeColors[type] || '#333'};
             color: white;
             padding: 12px 20px;
@@ -679,7 +683,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         `;
-        setTimeout(() => {
+
+        document.body.appendChild(notification);        setTimeout(() => {
             if (notification && notification.parentNode) {
                 notification.style.opacity = '0';
                 notification.style.transform = 'translateX(100%)';
