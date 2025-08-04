@@ -84,12 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('westlaw-warning').style.display = 'none';
                 updateStatus();
             } else {
-                // Show warning message
-                // document.getElementById('controls').style.display = 'none'; // Temporarily show controls
-                // document.getElementById('westlaw-warning').style.display = 'block'; // Temporarily hide warning
-                document.getElementById('status').textContent = 'Navigate to Westlaw to use this extension';
-            }
-        });
+                // Show controls for debugging
+                document.getElementById("controls").style.display = "block";
+                document.getElementById("westlaw-warning").style.display = "none";
+                document.getElementById("status").textContent = "Debug mode: Controls visible on all pages";
+            }        });
     }
 
     // Update status display
