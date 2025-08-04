@@ -160,11 +160,72 @@
             background: #218838;
             border-color: #1e7e34;
         }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .toggle-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #28a745;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Westlaw Enhancements</h1>
+        <h1>Chrome Westlaw Enhancements</h1>
         <div class="version" id="version">v?.?</div>
     </div>
 
@@ -183,6 +244,88 @@
     <button class="btn toggle-btn" id="reloadExtension" style="background: #6f42c1; color: white; border-color: #6f42c1;">🔄 Reload Extension</button>
     
     <div class="section">
+        <div class="section-title">Feature Toggles</div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Font Size Controls</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleFontSize" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Line Height Controls</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleLineHeight" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Margin Controls</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleMargins" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Sidebar Toggle</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleSidebarFeature" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Focus Mode</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleFocusModeFeature" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Session Keep Alive</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleKeepAliveFeature" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Search Navigation</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleSearchNav" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Document Navigation</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleDocNav" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="toggle-container">
+            <span class="toggle-label">Notes Feature</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleNotesFeature" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+        <div class="toggle-container">
+            <span class="toggle-label">Opinion Colorizer (Grey/Pink/Yellow)</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleOpinionColorizer" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+    <div class="section" id="fontSizeSection">
         <div class="section-title">Font Size</div>
         <div class="button-group">
             <button class="btn" id="decreaseFontSize">-</button>
@@ -191,7 +334,7 @@
         </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="lineHeightSection">
         <div class="section-title">Line Height</div>
         <div class="button-group">
             <button class="btn" id="decreaseLineHeight">-</button>
@@ -200,7 +343,7 @@
         </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="marginsSection">
         <div class="section-title">White Margins</div>
         <div class="button-group">
             <button class="btn" id="decreaseMargins">Narrower</button>
@@ -213,18 +356,18 @@
         </div>
     </div>
 
-    <div class="section">
+    <div class="section" id="layoutSection">
         <div class="section-title">Layout</div>
         <button class="btn toggle-btn" id="toggleSidebar">🙈 Hide Sidebar</button>
         <button class="btn toggle-btn" id="toggleFocusMode">🎯 Focus Mode: OFF</button>
     </div>
 
-    <div class="section">
+    <div class="section" id="sessionSection">
         <div class="section-title">Session Management</div>
         <button class="btn toggle-btn" id="toggleKeepAlive">🔄 Keep Session Alive: OFF</button>
     </div>
 
-    <div class="section nav-section">
+    <div class="section nav-section" id="navigationSection">
         <div class="section-title">Search Term Navigation</div>
         <div class="button-group">
             <button class="btn" id="navigatePrevious">← Prev Term</button>

@@ -1,4 +1,4 @@
-# Westlaw Combined Enhancements - Chrome Extension
+# Chrome Westlaw Enhancements - Chrome Extension
 
 A Chrome extension that enhances the Westlaw experience with customizable typography, layout controls, and navigation shortcuts.
 
@@ -12,13 +12,13 @@ A Chrome extension that enhances the Westlaw experience with customizable typogr
 
 1. **Open Chrome Extensions**: Go to `chrome://extensions/`
 2. **Enable Developer Mode**: Toggle the "Developer mode" switch in the top right
-3. **Load Extension**: Click "Load unpacked" and select the `westlaw-extension` folder
-4. **Pin Extension**: Click the puzzle piece icon in Chrome toolbar and pin "Westlaw Combined Enhancements"
+3. **Load Extension**: Click "Load unpacked" and select the `chrome-westlaw-extension` folder
+4. **Pin Extension**: Click the puzzle piece icon in Chrome toolbar and pin "Chrome Westlaw Enhancements"
 
 ### Option 2: Package and Install
 
 1. **Package Extension**: In Chrome extensions page, click "Pack extension"
-2. **Select Directory**: Choose the `westlaw-extension` folder
+2. **Select Directory**: Choose the `chrome-westlaw-extension` folder
 3. **Install**: Drag the generated `.crx` file to Chrome extensions page
 
 ## Usage

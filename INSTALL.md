@@ -4,7 +4,7 @@
 
 1. **Download**: Click the green "Code" button above, then "Download ZIP"
 2. **Extract**: Unzip the downloaded file to your Desktop or Downloads folder
-3. **Find the folder**: Look for the folder named `westlaw-extension-main`
+3. **Find the folder**: Look for the folder named `chrome-westlaw-extension-main`
 
 ## Install in Chrome
 
@@ -18,12 +18,12 @@
 
 3. **Add the Extension**:
    - Click the "Load unpacked" button (appears after turning on Developer mode)
-   - Navigate to and select the `westlaw-extension-main` folder you extracted
+   - Navigate to and select the `chrome-westlaw-extension-main` folder you extracted
    - Click "Select Folder"
 
 4. **Pin the Extension**:
    - Click the puzzle piece icon in Chrome's toolbar
-   - Find "Westlaw Combined Enhancements" in the list
+   - Find "Chrome Westlaw Enhancements" in the list
    - Click the pin icon next to it
 
 ## You're Done!

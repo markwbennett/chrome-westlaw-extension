@@ -62,11 +62,11 @@
     const KILLSWITCH_STORAGE_KEY = 'westlawKillswitch';
     let killswitchEnabled = false;
 
-    async function initializeKillswitch() {
+    let opinionColorizerEnabled = true;    async function initializeKillswitch() {
         killswitchEnabled = await getValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, false);
     }
 
-    function toggleKillswitch() {
+        opinionColorizerEnabled = await getValue('opinionColorizerEnabled', true);    function toggleKillswitch() {
         killswitchEnabled = !killswitchEnabled;
         setValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, killswitchEnabled);
         
@@ -628,7 +628,11 @@
     }
 
     // ===========================================
-    // NOTIFICATION SYSTEM
+    async function toggleOpinionColorizer() {
+        opinionColorizerEnabled = !opinionColorizerEnabled;
+        await setValue('opinionColorizerEnabled', opinionColorizerEnabled);
+        updateOpinionColors();
+    }    // NOTIFICATION SYSTEM
     // ===========================================
     function showNotification(message, type) {
         const existingNotification = document.getElementById('westlaw-notification');
@@ -1141,7 +1145,9 @@
                 break;
             case 'navigateNext':
                 navigateNext();
-                break;
+            case 'toggleOpinionColorizer':
+                toggleOpinionColorizer();
+                break;                break;
             case 'navigatePrevious':
                 navigatePrevious();
                 break;
@@ -1173,7 +1179,7 @@
                     focusModeEnabled: focusModeEnabled,
                     keepAliveEnabled: keepAliveEnabled,
                     killswitchEnabled: killswitchEnabled,
-                    version: SCRIPT_VERSION
+                    opinionColorizerEnabled: opinionColorizerEnabled,                    version: SCRIPT_VERSION
                 });
                 break;
         }
@@ -1284,6 +1290,6 @@
         }
     });
 
-    console.log(`Westlaw Combined Enhancements v${SCRIPT_VERSION} loaded at ${new Date().toLocaleTimeString()} (Built: ${BUILD_TIME}). Navigation keys: N/Right (next term), Left (prev term), Shift+Left/Right (prev/next doc), Up (top/prev doc), Enter (copy). Controls via extension popup.`);
+    console.log(`Chrome Westlaw Enhancements v${SCRIPT_VERSION} loaded at ${new Date().toLocaleTimeString()} (Built: ${BUILD_TIME}). Navigation keys: N/Right (next term), Left (prev term), Shift+Left/Right (prev/next doc), Up (top/prev doc), Enter (copy). Controls via extension popup.`);
 
 })(); 
