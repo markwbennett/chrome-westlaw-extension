@@ -62,13 +62,13 @@
     const KILLSWITCH_STORAGE_KEY = 'westlawKillswitch';
     let killswitchEnabled = false;
 
-    let opinionColorizerEnabled = true;    async function initializeKillswitch() {
-        killswitchEnabled = await getValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, false);
+    let opinionBordersEnabled = true;    async function initializeKillswitch() {
+    let opinionHighlightingEnabled = true;        killswitchEnabled = await getValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, false);
     }
 
-        opinionColorizerEnabled = await getValue('opinionColorizerEnabled', true);    function toggleKillswitch() {
+        opinionBordersEnabled = await getValue('opinionBordersEnabled', true);    function toggleKillswitch() {
         killswitchEnabled = !killswitchEnabled;
-        setValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, killswitchEnabled);
+        opinionHighlightingEnabled = await getValue('opinionHighlightingEnabled', true);        setValue(`${KILLSWITCH_STORAGE_KEY}_${currentDomain}`, killswitchEnabled);
         
         if (killswitchEnabled) {
             // Remove all modifications
@@ -628,12 +628,16 @@
     }
 
     // ===========================================
-    async function toggleOpinionColorizer() {
-        opinionColorizerEnabled = !opinionColorizerEnabled;
-        await setValue('opinionColorizerEnabled', opinionColorizerEnabled);
+    async function toggleOpinionBorders() {
+        opinionBordersEnabled = !opinionBordersEnabled;
+        await setValue('opinionBordersEnabled', opinionBordersEnabled);
         updateOpinionColors();
     }    // NOTIFICATION SYSTEM
-    // ===========================================
+    async function toggleOpinionHighlighting() {
+        opinionHighlightingEnabled = !opinionHighlightingEnabled;
+        await setValue('opinionHighlightingEnabled', opinionHighlightingEnabled);
+        updateOpinionColors();
+    }    // ===========================================
     function showNotification(message, type) {
         const existingNotification = document.getElementById('westlaw-notification');
         if (existingNotification) {
@@ -987,32 +991,78 @@
 
         opinionStyleElement = document.createElement('style');
         opinionStyleElement.id = 'westlaw-opinion-colorizer';
-
-        const colorRules = `
-            /* Very light pink for dissent sections */
+        const borderRules = `
+            /* Pink border for dissent sections */
             .co_contentBlock.x_opinionDissent,
             div[class*="dissent"] {
-                background-color: rgba(255, 182, 193, 0.15) !important; /* slightly darker light pink */
+                border: 2px solid rgba(255, 182, 193, 0.8) !important; /* pink border */
+                border-radius: 4px;
+                padding: 8px;
+                margin: 4px 0;
             }
 
-            /* Very light yellow for concur/concurrence sections */
+            /* Yellow border for concur/concurrence sections */
             .co_contentBlock.x_opinionConcur,
             .co_contentBlock.x_opinionConcurrence,
             .co_contentBlock.x_opinionConcurrance,
             div[class*="concur"] {
-                background-color: rgba(255, 255, 0, 0.1) !important; /* light yellow */
+                border: 2px solid rgba(255, 255, 0, 0.8) !important; /* yellow border */
+                border-radius: 4px;
+                padding: 8px;
+                margin: 4px 0;
             }
 
-            /* Light grey for attorney block sections */
+            /* Grey border for attorney block sections */
             .co_attorneyBlock {
-                background-color: rgba(128, 128, 128, 0.1) !important; /* light grey */
+                border: 2px solid rgba(128, 128, 128, 0.8) !important; /* grey border */
+                border-radius: 4px;
+                padding: 8px;
+                margin: 4px 0;
             }
 
-            /* Grey for brief it state sections */
-            .co_briefItState {
-                background-color: rgba(128, 128, 128, 0.15) !important; /* grey */
+            /* Grey border for brief it state sections (excluding those also tagged co_opinionBlock) */
+            .co_briefItState:not(.co_opinionBlock) {
+                border: 2px solid rgba(128, 128, 128, 0.8) !important; /* grey border */
+                border-radius: 4px;
+                padding: 8px;
+                margin: 4px 0;
             }
         `;
+
+        const highlightingRules = `
+            /* Pink highlighting for dissent sections */
+            .co_contentBlock.x_opinionDissent,
+            div[class*="dissent"] {
+                background-color: rgba(255, 182, 193, 0.15) !important; /* pink highlighting */
+            }
+
+            /* Yellow highlighting for concur/concurrence sections */
+            .co_contentBlock.x_opinionConcur,
+            .co_contentBlock.x_opinionConcurrence,
+            .co_contentBlock.x_opinionConcurrance,
+            div[class*="concur"] {
+                background-color: rgba(255, 255, 0, 0.1) !important; /* yellow highlighting */
+            }
+
+            /* Grey highlighting for attorney block sections */
+            .co_attorneyBlock {
+                background-color: rgba(128, 128, 128, 0.1) !important; /* grey highlighting */
+            }
+
+            /* Grey highlighting for brief it state sections (excluding those also tagged co_opinionBlock) */
+            .co_briefItState:not(.co_opinionBlock) {
+                background-color: rgba(128, 128, 128, 0.15) !important; /* grey highlighting */
+            }
+        `;
+
+        let finalRules = ';
+        if (opinionBordersEnabled) {
+            finalRules += borderRules;
+        }
+        if (opinionHighlightingEnabled) {
+            finalRules += highlightingRules;
+        }
+        opinionStyleElement.textContent = finalRules;        `;        `;
 
         opinionStyleElement.textContent = colorRules;
         (document.head || document.documentElement).appendChild(opinionStyleElement);
@@ -1098,7 +1148,9 @@
                 updateDivFontSize();
                 break;
             case 'increaseLineHeight':
-                lineHeight += 0.1;
+            case 'toggleOpinionHighlighting':
+                toggleOpinionHighlighting();
+                break;                lineHeight += 0.1;
                 updateLineHeight();
                 break;
             case 'decreaseLineHeight':
@@ -1145,8 +1197,8 @@
                 break;
             case 'navigateNext':
                 navigateNext();
-            case 'toggleOpinionColorizer':
-                toggleOpinionColorizer();
+            case 'toggleOpinionBorders':
+                toggleOpinionBorders();
                 break;                break;
             case 'navigatePrevious':
                 navigatePrevious();
@@ -1179,7 +1231,7 @@
                     focusModeEnabled: focusModeEnabled,
                     keepAliveEnabled: keepAliveEnabled,
                     killswitchEnabled: killswitchEnabled,
-                    opinionColorizerEnabled: opinionColorizerEnabled,                    version: SCRIPT_VERSION
+                    opinionBordersEnabled: opinionBordersEnabled,                    version: SCRIPT_VERSION
                 });
                 break;
         }

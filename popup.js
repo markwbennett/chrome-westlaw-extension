@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             searchNavEnabled: true,
             docNavEnabled: true,
             notesEnabled: true
-            opinionColorizerEnabled: true        }, function(items) {
+            opinionHighlightingEnabled: true            opinionBordersEnabled: true        }, function(items) {
             document.getElementById('toggleFontSize').checked = items.fontSizeEnabled;
             document.getElementById('toggleLineHeight').checked = items.lineHeightEnabled;
             document.getElementById('toggleMargins').checked = items.marginsEnabled;
@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('toggleDocNav').checked = items.docNavEnabled;
             document.getElementById('toggleNotesFeature').checked = items.notesEnabled;
             
-            document.getElementById('toggleOpinionColorizer').checked = items.opinionColorizerEnabled;            updateFeatureVisibility();
+            document.getElementById('toggleOpinionBorders').checked = items.opinionBordersEnabled;            updateFeatureVisibility();
         });
-    }
+            document.getElementById('toggleOpinionHighlighting').checked = items.opinionHighlightingEnabled;    }
     
     // Save feature toggles to storage
     function saveFeatureToggle(feature, enabled) {
@@ -46,9 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const docNavEnabled = document.getElementById('toggleDocNav').checked;
         const notesEnabled = document.getElementById('toggleNotesFeature').checked;
         
-        const opinionColorizerEnabled = document.getElementById('toggleOpinionColorizer').checked;        document.getElementById('fontSizeSection').style.display = fontSizeEnabled ? 'block' : 'none';
+        const opinionBordersEnabled = document.getElementById('toggleOpinionBorders').checked;        document.getElementById('fontSizeSection').style.display = fontSizeEnabled ? 'block' : 'none';
         document.getElementById('lineHeightSection').style.display = lineHeightEnabled ? 'block' : 'none';
-        document.getElementById('marginsSection').style.display = marginsEnabled ? 'block' : 'none';
+        const opinionHighlightingEnabled = document.getElementById('toggleOpinionHighlighting').checked;        document.getElementById('marginsSection').style.display = marginsEnabled ? 'block' : 'none';
         document.getElementById('layoutSection').style.display = (sidebarEnabled || focusModeEnabled) ? 'block' : 'none';
         document.getElementById('sessionSection').style.display = keepAliveEnabled ? 'block' : 'none';
         document.getElementById('navigationSection').style.display = (searchNavEnabled || docNavEnabled || notesEnabled) ? 'block' : 'none';
@@ -310,9 +310,11 @@ document.addEventListener('DOMContentLoaded', function() {
         saveFeatureToggle('notesEnabled', this.checked);
     });
 
-    document.getElementById('toggleOpinionColorizer').addEventListener('change', function() {
-        saveFeatureToggle('opinionColorizerEnabled', this.checked);
+    document.getElementById('toggleOpinionBorders').addEventListener('change', function() {
+        saveFeatureToggle('opinionBordersEnabled', this.checked);
     });    // Initial page check and load toggles
-    checkWestlawPage();
+    document.getElementById('toggleOpinionHighlighting').addEventListener('change', function() {
+        saveFeatureToggle('opinionHighlightingEnabled', this.checked);
+    });    checkWestlawPage();
     loadFeatureToggles();
 }); 
