@@ -2,7 +2,7 @@
     'use strict';
     
     // Dynamic version info
-    const SCRIPT_VERSION = '5.6.3';
+    const SCRIPT_VERSION = '1.5';
     const BUILD_TIME = new Date().toISOString();
     
     // Page detection functions

@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateStatus();
             } else {
                 // Show warning message
-                document.getElementById('controls').style.display = 'none';
-                document.getElementById('westlaw-warning').style.display = 'block';
+                // document.getElementById('controls').style.display = 'none'; // Temporarily show controls
+                // document.getElementById('westlaw-warning').style.display = 'block'; // Temporarily hide warning
                 document.getElementById('status').textContent = 'Navigate to Westlaw to use this extension';
             }
         });
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             `Focus: ${response.focusModeEnabled ? 'ON' : 'OFF'} | ` +
                             `Keep-Alive: ${response.keepAliveEnabled ? 'ON' : 'OFF'}`;
                         
-                        document.getElementById('version').textContent = `v${response.version}`;
+                        document.getElementById('version').textContent = `v${response.version || '1.5'}`;
                     }
                 });
             }
@@ -325,4 +325,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial page check and load toggles
     checkWestlawPage();
     loadFeatureToggles();
-});
+    
+    // Set fallback version
+    document.getElementById('version').textContent = 'v1.5';});
