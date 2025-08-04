@@ -634,14 +634,12 @@
 
     // ===========================================
     async function toggleOpinionBorders() {
-        opinionBordersEnabled = !opinionBordersEnabled;
-        await setValue('opinionBordersEnabled', opinionBordersEnabled);
+        opinionBordersEnabled = await getValue('opinionBordersEnabled', true);
         updateOpinionColors();
     }
 
     async function toggleOpinionHighlighting() {
-        opinionHighlightingEnabled = !opinionHighlightingEnabled;
-        await setValue('opinionHighlightingEnabled', opinionHighlightingEnabled);
+        opinionHighlightingEnabled = await getValue('opinionHighlightingEnabled', true);
         updateOpinionColors();
     }
 
@@ -1021,6 +1019,14 @@
                 margin: 4px 0;
             }
 
+            /* Yellow border for CipDip sections */
+            .co_contentBlock.x_opinionCipDip {
+                border: 2px solid rgba(255, 255, 0, 0.8) !important; /* yellow border */
+                border-radius: 4px;
+                padding: 8px;
+                margin: 4px 0;
+            }
+
             /* Grey border for attorney block sections */
             .co_attorneyBlock {
                 border: 2px solid rgba(128, 128, 128, 0.8) !important; /* grey border */
@@ -1050,6 +1056,11 @@
             .co_contentBlock.x_opinionConcurrence,
             .co_contentBlock.x_opinionConcurrance,
             div[class*="concur"] {
+                background-color: rgba(255, 255, 0, 0.1) !important; /* yellow highlighting */
+            }
+
+            /* Yellow highlighting for CipDip sections */
+            .co_contentBlock.x_opinionCipDip {
                 background-color: rgba(255, 255, 0, 0.1) !important; /* yellow highlighting */
             }
 

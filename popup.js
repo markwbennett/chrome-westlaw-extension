@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load feature toggles from storage
     function loadFeatureToggles() {
-        chrome.storage.sync.get({
+        chrome.storage.local.get({
             fontSizeEnabled: true,
             lineHeightEnabled: true,
             marginsEnabled: true,
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Save feature toggles to storage
     function saveFeatureToggle(feature, enabled) {
-        chrome.storage.sync.set({[feature]: enabled}, function() {
+        chrome.storage.local.set({[feature]: enabled}, function() {
             updateFeatureVisibility();
         });
     }
@@ -315,10 +315,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('toggleOpinionBorders').addEventListener('change', function() {
         saveFeatureToggle('opinionBordersEnabled', this.checked);
+        sendMessage('toggleOpinionBorders');
     });
 
     document.getElementById('toggleOpinionHighlighting').addEventListener('change', function() {
         saveFeatureToggle('opinionHighlightingEnabled', this.checked);
+        sendMessage('toggleOpinionHighlighting');
     });
 
     // Initial page check and load toggles

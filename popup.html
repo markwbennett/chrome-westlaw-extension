@@ -228,6 +228,8 @@
         <h1>Chrome Westlaw Enhancements</h1>
         <div class="version" id="version">v?.?</div>
 
+    </div>
+
     <div id="westlaw-warning" style="display: none;">
         <div class="warning-message">
             <div class="warning-icon">⚠️</div>
@@ -236,6 +238,7 @@
                 <p>This extension only works on Westlaw pages. Please navigate to <strong>westlaw.com</strong> to use the reading enhancements.</p>
             </div>
         </div>
+    </div>
 
     <div id="controls">
     <button class="btn toggle-btn killswitch-btn" id="toggleKillswitch">🔴 DISABLE ALL MODIFICATIONS</button>
@@ -337,7 +340,8 @@
             <button class="btn" id="resetFontSize">Reset</button>
             <button class="btn" id="increaseFontSize">+</button>
         </div>
-    </div>    </div>
+        </div>
+    </div>
 
     <div class="section" id="lineHeightSection">
         <div class="section-title">Line Height</div>
@@ -346,6 +350,7 @@
             <button class="btn" id="resetLineHeight">Reset</button>
             <button class="btn" id="increaseLineHeight">+</button>
         </div>
+    </div>
 
     <div class="section" id="marginsSection">
         <div class="section-title">White Margins</div>
@@ -358,15 +363,18 @@
             <button class="btn" id="moveLeft">← Shift Left</button>
             <button class="btn" id="moveRight">Shift Right →</button>
         </div>
+    </div>
 
     <div class="section" id="layoutSection">
         <div class="section-title">Layout</div>
         <button class="btn toggle-btn" id="toggleSidebar">🙈 Hide Sidebar</button>
         <button class="btn toggle-btn" id="toggleFocusMode">🎯 Focus Mode: OFF</button>
+    </div>
 
     <div class="section" id="sessionSection">
         <div class="section-title">Session Management</div>
         <button class="btn toggle-btn" id="toggleKeepAlive">🔄 Keep Session Alive: OFF</button>
+    </div>
 
     <div class="section nav-section" id="navigationSection">
         <div class="section-title">Search Term Navigation</div>
@@ -388,10 +396,12 @@
             Terms: N/→ (next), ← (prev) | Docs: Shift+← (prev), Shift+→ (next)<br>
             ↑ (top/prev doc), Enter (copy)
         </div>
-
+    </div>
+    </div>
 
     <div class="status" id="status">
         Loading...
+    </div>
 
     <script src="popup.js"></script>
 </body>
