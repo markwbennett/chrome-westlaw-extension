@@ -142,6 +142,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             keepAliveBtn.textContent = '🔄 Keep Session Alive: OFF';
                         }
                         
+                        // Update citing references button
+                        const citingRefsBtn = document.getElementById('toggleCitingReferencesFocus');
+                        if (response.citingReferencesEnabled) {
+                            citingRefsBtn.classList.add('active');
+                            citingRefsBtn.textContent = '📋 Citing References Focus: ON';
+                        } else {
+                            citingRefsBtn.classList.remove('active');
+                            citingRefsBtn.textContent = '📋 Citing References Focus: OFF';
+                        }
+                        
                         document.getElementById('status').textContent = 
                             `${response.killswitchEnabled ? 'DISABLED | ' : ''}` +
                             `Font: ${response.fontSize}px | Line: ${response.lineHeight} | ` +
@@ -228,6 +238,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('toggleKeepAlive').addEventListener('click', function() {
         sendMessage('toggleKeepAlive');
+        setTimeout(updateStatus, 100);
+    });
+
+    document.getElementById('toggleCitingReferencesFocus').addEventListener('click', function() {
+        sendMessage('toggleCitingReferencesFocus');
         setTimeout(updateStatus, 100);
     });
 

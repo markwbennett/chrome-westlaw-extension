@@ -1258,9 +1258,13 @@
                 break;
             case 'navigateNext':
                 navigateNext();
+                break;
             case 'toggleOpinionBorders':
                 toggleOpinionBorders();
-                break;                break;
+                break;
+            case 'toggleCitingReferencesFocus':
+                toggleCitingReferencesFocus();
+                break;
             case 'navigatePrevious':
                 navigatePrevious();
                 break;
@@ -1292,7 +1296,10 @@
                     focusModeEnabled: focusModeEnabled,
                     keepAliveEnabled: keepAliveEnabled,
                     killswitchEnabled: killswitchEnabled,
-                    opinionBordersEnabled: opinionBordersEnabled,                    version: SCRIPT_VERSION
+                    opinionBordersEnabled: opinionBordersEnabled,
+                    opinionHighlightingEnabled: opinionHighlightingEnabled,
+                    citingReferencesEnabled: citingReferencesEnabled,
+                    version: SCRIPT_VERSION
                 });
                 break;
         }
@@ -1307,7 +1314,8 @@
         updateSidebarVisibility();
         updateFocusMode();
         updateKeepAlive();
-        updateOpinionColors();  // Add this line
+        updateOpinionColors();
+        updateCitingReferencesDisplay();
     }
 
     async function initialize() {
@@ -1387,6 +1395,64 @@
         observer.observe(document.body, {
             childList: true,
             subtree: true
+        });
+    }
+
+    // ===========================================
+    // CITING REFERENCES FOCUS MODULE
+    // ===========================================
+    let citingReferencesEnabled = false;
+    
+    function toggleCitingReferencesFocus() {
+        citingReferencesEnabled = !citingReferencesEnabled;
+        updateCitingReferencesDisplay();
+        showNotification(`Citing References Focus: ${citingReferencesEnabled ? 'ON' : 'OFF'}`, 'layout');
+    }
+    
+    function updateCitingReferencesDisplay() {
+        // Find citing references tables
+        const tables = document.querySelectorAll('table#co_relatedInfo_table_citingRefs, table.co_detailsTable');
+        
+        tables.forEach(table => {
+            if (citingReferencesEnabled) {
+                // Hide all columns except content
+                const headers = table.querySelectorAll('th');
+                const rows = table.querySelectorAll('tbody tr');
+                
+                headers.forEach((header, index) => {
+                    if (!header.classList.contains('co_detailsTable_content')) {
+                        header.style.display = 'none';
+                    }
+                });
+                
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach((cell, index) => {
+                        if (!cell.classList.contains('co_detailsTable_content')) {
+                            cell.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Add styling to make content column wider
+                const contentHeaders = table.querySelectorAll('th.co_detailsTable_content');
+                const contentCells = table.querySelectorAll('td.co_detailsTable_content');
+                
+                contentHeaders.forEach(header => {
+                    header.style.width = '100%';
+                });
+                contentCells.forEach(cell => {
+                    cell.style.width = '100%';
+                });
+                
+            } else {
+                // Restore all columns
+                const allElements = table.querySelectorAll('th, td');
+                allElements.forEach(element => {
+                    element.style.display = '';
+                    element.style.width = '';
+                });
+            }
         });
     }
 
