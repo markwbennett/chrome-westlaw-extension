@@ -1079,7 +1079,7 @@
             }
 
             /* Grey border for remarks block sections */
-            .cp_remarksBlock {
+            .co_remarksBlock {
                 border: 2px solid rgba(128, 128, 128, 0.8) !important; /* grey border */
                 border-radius: 4px;
                 padding: 8px;
@@ -1113,7 +1113,7 @@
             }
 
             /* Grey highlighting for remarks block sections */
-            .cp_remarksBlock {
+            .co_remarksBlock {
                 background-color: rgba(128, 128, 128, 0.15) !important; /* grey highlighting */
             }
         `;
