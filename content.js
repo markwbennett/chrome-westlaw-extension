@@ -1078,8 +1078,8 @@
                 margin: 4px 0;
             }
 
-            /* Grey border for brief it state sections (excluding those also tagged co_opinionBlock) */
-            .co_briefItState:not(.co_opinionBlock) {
+            /* Grey border for remarks block sections */
+            .cp_remarksBlock {
                 border: 2px solid rgba(128, 128, 128, 0.8) !important; /* grey border */
                 border-radius: 4px;
                 padding: 8px;
@@ -1112,8 +1112,8 @@
                 background-color: rgba(128, 128, 128, 0.1) !important; /* grey highlighting */
             }
 
-            /* Grey highlighting for brief it state sections (excluding those also tagged co_opinionBlock) */
-            .co_briefItState:not(.co_opinionBlock) {
+            /* Grey highlighting for remarks block sections */
+            .cp_remarksBlock {
                 background-color: rgba(128, 128, 128, 0.15) !important; /* grey highlighting */
             }
         `;
