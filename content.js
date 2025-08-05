@@ -1415,35 +1415,42 @@
         
         tables.forEach(table => {
             if (citingReferencesEnabled) {
-                // Hide all columns except content
+                // Completely hide all columns except content
                 const headers = table.querySelectorAll('th');
                 const rows = table.querySelectorAll('tbody tr');
                 
-                headers.forEach((header, index) => {
+                headers.forEach((header) => {
                     if (!header.classList.contains('co_detailsTable_content')) {
                         header.style.display = 'none';
+                        header.style.width = '0';
+                        header.style.padding = '0';
+                        header.style.margin = '0';
+                    } else {
+                        // Make content header take full width
+                        header.style.width = '100%';
+                        header.style.maxWidth = '100%';
                     }
                 });
                 
                 rows.forEach(row => {
                     const cells = row.querySelectorAll('td');
-                    cells.forEach((cell, index) => {
+                    cells.forEach((cell) => {
                         if (!cell.classList.contains('co_detailsTable_content')) {
                             cell.style.display = 'none';
+                            cell.style.width = '0';
+                            cell.style.padding = '0';
+                            cell.style.margin = '0';
+                        } else {
+                            // Make content cell take full width
+                            cell.style.width = '100%';
+                            cell.style.maxWidth = '100%';
                         }
                     });
                 });
                 
-                // Add styling to make content column wider
-                const contentHeaders = table.querySelectorAll('th.co_detailsTable_content');
-                const contentCells = table.querySelectorAll('td.co_detailsTable_content');
-                
-                contentHeaders.forEach(header => {
-                    header.style.width = '100%';
-                });
-                contentCells.forEach(cell => {
-                    cell.style.width = '100%';
-                });
+                // Set table to full width and remove spacing
+                table.style.width = '100%';
+                table.style.tableLayout = 'fixed';
                 
             } else {
                 // Restore all columns
@@ -1451,7 +1458,14 @@
                 allElements.forEach(element => {
                     element.style.display = '';
                     element.style.width = '';
+                    element.style.maxWidth = '';
+                    element.style.padding = '';
+                    element.style.margin = '';
                 });
+                
+                // Restore table layout
+                table.style.width = '';
+                table.style.tableLayout = '';
             }
         });
     }
