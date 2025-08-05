@@ -46,14 +46,57 @@
     // Storage helpers to replace GM functions
     async function getValue(key, defaultValue) {
         return new Promise((resolve) => {
-            chrome.storage.local.get([key], (result) => {
-                resolve(result[key] !== undefined ? result[key] : defaultValue);
-            });
+            try {
+                if (!chrome.runtime?.id) {
+                    console.log('Extension context invalidated, using default value for', key);
+                    resolve(defaultValue);
+                    return;
+                }
+                chrome.storage.local.get([key], (result) => {
+                    if (chrome.runtime.lastError) {
+                        console.log('Storage error:', chrome.runtime.lastError.message);
+                        resolve(defaultValue);
+                        return;
+                    }
+                    resolve(result[key] !== undefined ? result[key] : defaultValue);
+                });
+            } catch (error) {
+                console.log('Extension context invalidated:', error.message);
+                resolve(defaultValue);
+            }
         });
     }
 
     function setValue(key, value) {
-        chrome.storage.local.set({[key]: value});
+        try {
+            if (!chrome.runtime?.id) {
+                console.log('Extension context invalidated, cannot save', key);
+                return;
+            }
+            chrome.storage.local.set({[key]: value}, () => {
+                if (chrome.runtime.lastError) {
+                    console.log('Storage error:', chrome.runtime.lastError.message);
+                }
+            });
+        } catch (error) {
+            console.log('Extension context invalidated:', error.message);
+        }
+    }
+
+    function safeSendMessage(message) {
+        try {
+            if (!chrome.runtime?.id) {
+                console.log('Extension context invalidated, cannot send message:', message);
+                return;
+            }
+            chrome.runtime.sendMessage(message, () => {
+                if (chrome.runtime.lastError) {
+                    console.log('Message error:', chrome.runtime.lastError.message);
+                }
+            });
+        } catch (error) {
+            console.log('Extension context invalidated:', error.message);
+        }
     }
 
     // ===========================================
@@ -857,7 +900,7 @@
     }
 
     function openNotesViewer() {
-        chrome.runtime.sendMessage({action: 'openNotesViewer'});
+        safeSendMessage({action: 'openNotesViewer'});
     }
 
          async function readClipboardWithRetries() {
@@ -894,7 +937,7 @@
                                  showNotification('Quotation saved to notes', 'navigation');
                                  // Longer delay and message broadcast to ensure reliability
                                  setTimeout(() => {
-                                     chrome.runtime.sendMessage({action: 'notesUpdated'});
+                                     safeSendMessage({action: 'notesUpdated'});
                                      openNotesViewer();
                                  }, 300);
                              });
@@ -959,7 +1002,7 @@
                              showNotification('Quotation saved to notes', 'navigation');
                              // Longer delay and message broadcast to ensure reliability
                              setTimeout(() => {
-                                 chrome.runtime.sendMessage({action: 'notesUpdated'});
+                                 safeSendMessage({action: 'notesUpdated'});
                                  openNotesViewer();
                              }, 300);
                          });
